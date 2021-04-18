@@ -2,12 +2,16 @@ const express = require('express')
 const app = express()
 const port = 3000
 
-// pre set for task
+/** REQUEST PARSERS */
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 let robotFactory = [];
 
-createRobot = () => {
+createRobot = (robotName) => {
     robotFactory.push({
         id: robotFactory.length,
+        name: robotName || "Bot",
         posX: 0,
         posY: 0,
         heading: "NORTH",
@@ -49,7 +53,7 @@ app.get('/', (req, res) => {
 })
 
 app.put('/create', (req, res) => {
-    createRobot();
+    createRobot(req.body.name);
     res.send(robotFactory);
 });
 
